@@ -14,3 +14,5 @@ cat input_test.json | katago analysis -model kata1-zhizi-b40c768nbt-fdx6c.bin.gz
 ```
 
 ## Dependencies
+- katago model: [kata1-zhizi-b40c768nbt-fdx6c](https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-zhizi-b40c768nbt-fdx6c.bin.gz)
+
