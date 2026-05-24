@@ -7,6 +7,7 @@ in pkgs.mkShellNoCC {
         pkgs.katago
         pkgs.jq
     ];
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/:/run/opengl-driver/lib/";
     shellHook = ''
         ssh -fN nas_tunnel
 
