@@ -1,22 +1,26 @@
-create user chris with inherit;
-create user sev with inherit;
+create user chris;
+create user sev;
 
 create database go_stats;
 
 \c go_stats;
-create role developer with inherit;
-alter database go_stats owner to developer;
-grant connect, create on database go_stats to developer;
-grant usage, create on schema public to developer;
-grant select, insert, update, delete on all tables in schema public to developer;
-grant usage, select on all sequences in schema public to developer;
+grant connect, create on database go_stats to chris;
+grant usage, create on schema public to chris;
+grant select, insert, update, delete on all tables in schema public to chris;
+grant usage, select on all sequences in schema public to chris;
 alter default privileges in schema public
-        grant select, insert, update, delete on tables to developer;
+        grant select, insert, update, delete on tables to chris;
 alter default privileges in schema public
-        grant usage, select on sequences to developer;
+        grant usage, select on sequences to chris;
 
-grant developer to chris;
-grant developer to sev;
+grant connect, create on database go_stats to sev;
+grant usage, create on schema public to sev;
+grant select, insert, update, delete on all tables in schema public to sev;
+grant usage, select on all sequences in schema public to sev;
+alter default privileges in schema public
+        grant select, insert, update, delete on tables to sev;
+alter default privileges in schema public
+        grant usage, select on sequences to sev;
 
 create table players (
         player_id serial primary key,
