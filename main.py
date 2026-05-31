@@ -1,6 +1,7 @@
 import requests
 import itertools
 import json
+import sys
 
 
 def main(game_id):
@@ -8,7 +9,7 @@ def main(game_id):
     data = requests.get(api_url)
     try:
         with open(f"games/{game_id}.json", "x") as file:
-            file.write(data.json())
+            file.write(str(data.json()))
     except FileExistsError:
         print(f"games/{game_id}.json already exists. Skipping...")
 
@@ -53,4 +54,9 @@ def format_moves(moves, handicap):
 
 
 if __name__ == "__main__":
-    main(84357281)
+    arguments = sys.argv[1:]
+    if len(arguments) != 1:
+        print("This script accepts exactly one argument (game_id)")
+        sys.exit(1)
+
+    main(arguments[0])  # 84357281
