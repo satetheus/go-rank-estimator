@@ -52,15 +52,5 @@ def format_moves(moves, handicap):
     return moves_with_player
 
 
-def load_game_file(filename):
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        print(f"Error: '{filename}' not found")
-
-    return data
-
-
 if __name__ == "__main__":
     main(84357281)
