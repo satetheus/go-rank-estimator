@@ -1,10 +1,10 @@
 {
-  "name": "remake2",
+  "name": "go-rank-estimator",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "remake2/node_modules/.bin/tsc"
+    "build": "node_modules/.bin/tsc"
   },
   "dependencies": {
     "node-fetch": "^3.3.2"
