@@ -44,8 +44,8 @@ create table games (
         modified_timestamp timestamp,
         server varchar,
         server_game_id integer,
-        black_player_id integer not null references players,
-        white_player_id integer not null references players,
+        black_player_id integer not null references players (player_id),
+        white_player_id integer not null references players (player_id),
         winner varchar,
         outcome varchar,
         annulled bool,
@@ -71,15 +71,13 @@ create table games (
         main_time integer,
         periods integer,
         period_time integer,
-        speed varchar,
-        constraint black_player foreign key(black_player_id) references players (player_id),
-        constraint white_player foreign key(white_player_id) references players (player_id)
+        speed varchar
 );
 
 create table moves (
         move_id serial primary key,
-        player_id integer not null references players,
-        game_id integer not null references games,
+        player_id integer not null references players (player_id),
+        game_id integer not null references games (game_id),
         move varchar not null,
         move_x integer,
         move_y integer,
@@ -99,9 +97,7 @@ create table moves (
         utility decimal,
         visits integer,
         weight decimal,
-        winrate decimal,
-        constraint player foreign key(player_id) references players (player_id),
-        constraint game foreign key(game_id) references games (game_id)
+        winrate decimal
 );
 
 create index black_player on games (black_player_id);
