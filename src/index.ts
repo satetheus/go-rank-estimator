@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { MikroORM } from "@mikro-orm/postgresql";
 import config from "./mikro-orm.config";
 import { Players } from "./entities/Players";
-import { Game } from "./types";
+import { Game, Move } from "./types";
 import { extractPlayerFromGame } from "./DBFunctions";
 
 const getGame = async (gameId: number) => {
@@ -11,23 +11,29 @@ const getGame = async (gameId: number) => {
   return (await response.json()) as Game;
 };
 
-const formatMoves = (moves: any, handicap: any) => {
+const formatMoves = (
+  moves: Move[],
+  handicap: number,
+  freeHandicapPlacement: boolean,
+  boardSize: number,
+) => {
   let blackPlays = true;
-  if (parseInt(handicap) > 1) {
+
+  if (handicap > 1 && !freeHandicapPlacement) {
     blackPlays = false;
   }
 
   const BOARD_COORD = "ABCDEFGHJKLMNOPQRST";
 
   const formattedMoves: string[][] = [];
-  moves.forEach((move: number[]) => {
+  moves.forEach((move: Move) => {
     if (move[0] < 0) {
       blackPlays = !blackPlays;
       return;
     }
     formattedMoves.push([
       blackPlays ? "B" : "W",
-      `${BOARD_COORD[move[0]]}${move[1] + 1}`,
+      `${BOARD_COORD[move[0]]}${boardSize - move[1]}`,
     ]);
     blackPlays = !blackPlays;
   });
@@ -35,10 +41,15 @@ const formatMoves = (moves: any, handicap: any) => {
   return formattedMoves;
 };
 
-const writeGame = (game: any) => {
+const writeGame = (game: Game) => {
   return {
     id: game.id,
-    moves: formatMoves(game.gamedata.moves, game.hanicap),
+    moves: formatMoves(
+      game.gamedata.moves,
+      game.handicap,
+      game.gamedata.free_handicap_placement,
+      game.height,
+    ),
     rules: game.rules,
     komi: game.komi,
     boardXSize: game.width,

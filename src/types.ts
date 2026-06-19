@@ -24,7 +24,7 @@ export interface GameDataPlayer {
   rank: number;
 }
 
-export type Move = [string, string];
+export type Move = [number, number, number];
 
 export interface GameData {
   allow_ko: boolean;
