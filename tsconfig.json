@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2024",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
@@ -9,7 +9,5 @@
     "skipLibCheck": true,
     "outDir": "dist"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

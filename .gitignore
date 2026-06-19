@@ -10,3 +10,7 @@ yarn-error.log*
 .pnp.js
 
 .vscode/*
+/games/
+/to_analyze.json
+/.env
+/access-db.sh

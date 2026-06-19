@@ -4,14 +4,33 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node_modules/.bin/tsc"
+    "build": "node_modules/.bin/tsc",
+    "prepare": "husky"
   },
   "dependencies": {
+    "@mikro-orm/postgresql": "^7.1.4",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "@mikro-orm/cli": "^7.1.4",
+    "@mikro-orm/entity-generator": "^7.1.4",
+    "@types/node": "^25.9.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.8.4",
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.9"
   },
   "private": true,
-  "type": "module"
+  "type": "module",
+  "mikro-orm": {
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
 }

@@ -1,50 +1,75 @@
-import fetch from 'node-fetch'
+import fetch from "node-fetch";
+import { MikroORM } from "@mikro-orm/postgresql";
+import config from "./mikro-orm.config";
+import { Players } from "./entities/Players";
+import { Game } from "./types";
+import { extractPlayerFromGame } from "./DBFunctions";
 
 const getGame = async (gameId: number) => {
-    const apiURL = `https://online-go.com/api/v1/games/${gameId}/`
-    const response = await fetch(apiURL)
-    return await response.json()
-}
+  const apiURL = `https://online-go.com/api/v1/games/${gameId}/`;
+  const response = await fetch(apiURL);
+  return (await response.json()) as Game;
+};
 
 const formatMoves = (moves: any, handicap: any) => {
-    let blackPlays = true
-    if (parseInt(handicap) > 1) {
-        blackPlays = false
+  let blackPlays = true;
+  if (parseInt(handicap) > 1) {
+    blackPlays = false;
+  }
+
+  const BOARD_COORD = "ABCDEFGHJKLMNOPQRST";
+
+  const formattedMoves: string[][] = [];
+  moves.forEach((move: number[]) => {
+    if (move[0] < 0) {
+      blackPlays = !blackPlays;
+      return;
     }
+    formattedMoves.push([
+      blackPlays ? "B" : "W",
+      `${BOARD_COORD[move[0]]}${move[1] + 1}`,
+    ]);
+    blackPlays = !blackPlays;
+  });
 
-    const BOARD_COORD = 'ABCDEFGHJKLMNOPQRST'
-
-    const formattedMoves: string[][] = []
-    moves.forEach((move: number[]) => {
-        if (move[0] < 0) {
-            blackPlays = !blackPlays
-            return
-        }
-        formattedMoves.push([blackPlays ? 'B' : 'W', `${BOARD_COORD[move[0]]}${move[1]+1}`])
-        blackPlays = !blackPlays
-    })
-
-    return formattedMoves
-
-}
+  return formattedMoves;
+};
 
 const writeGame = (game: any) => {
-    const formattedGame = {
-        id: game.id,
-        moves: formatMoves(game.gamedata.moves, game.hanicap),
-        rules: game.rules,
-        komi: game.komi,
-        boardXSize: game.width,
-        boardYSize: game.height,
-        analyzeTurns: [],
-    }
-    console.log(formattedGame)
-    return formattedGame
+  return {
+    id: game.id,
+    moves: formatMoves(game.gamedata.moves, game.hanicap),
+    rules: game.rules,
+    komi: game.komi,
+    boardXSize: game.width,
+    boardYSize: game.height,
+    analyzeTurns: [],
+  };
+};
 
+const orm = await MikroORM.init(config);
+// em = Entity Manager
+const em = orm.em.fork();
+
+const game = await getGame(2);
+
+const existingPlayerWhite = await em.findOne(Players, {
+  serverPlayerId: game.players.white.id,
+});
+if (!existingPlayerWhite) {
+  em.create(Players, extractPlayerFromGame(game, false));
 }
 
-const blah = await getGame(2)
-writeGame(blah)
-console.log(blah)
+const existingPlayerBlack = await em.findOne(Players, {
+  serverPlayerId: game.players.black.id,
+});
+if (!existingPlayerBlack) {
+  em.create(Players, extractPlayerFromGame(game, true));
+}
 
-export {}
+await em.flush();
+
+writeGame(game);
+console.log(game);
+
+export {};
