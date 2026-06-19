@@ -72,11 +72,12 @@ create table games (
         periods integer,
         period_time integer,
         speed varchar,
-        foreign key(black_player_id) references players (player_id),
-        foreign key(white_player_id) references players (player_id)
+        constraint black_player foreign key(black_player_id) references players (player_id),
+        constraint white_player foreign key(white_player_id) references players (player_id)
 );
 
 create table moves (
+        move_id serial primary key,
         player_id integer not null references players,
         game_id integer not null references games,
         move varchar not null,
@@ -99,8 +100,8 @@ create table moves (
         visits integer,
         weight decimal,
         winrate decimal,
-        foreign key(player_id) references players (player_id),
-        foreign key(game_id) references games (game_id)
+        constraint player foreign key(player_id) references players (player_id),
+        constraint game foreign key(game_id) references games (game_id)
 );
 
 create index black_player on games (black_player_id);
