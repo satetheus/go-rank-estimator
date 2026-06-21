@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mikro-orm/postgresql": "^7.1.4",
+    "json-shrinker": "^2.0.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

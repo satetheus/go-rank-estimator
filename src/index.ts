@@ -4,6 +4,7 @@ import config from "./mikro-orm.config";
 import { Players } from "./entities/Players";
 import { Game, Move } from "./types";
 import { extractPlayerFromGame } from "./DBFunctions";
+import { shrinkJSON, stringify } from "json-shrinker";
 
 const getGame = async (gameId: number) => {
   const apiURL = `https://online-go.com/api/v1/games/${gameId}/`;
@@ -42,19 +43,20 @@ const formatMoves = (
 };
 
 const writeGame = (game: Game) => {
+  const formattedMoves = formatMoves(
+    game.gamedata.moves,
+    game.handicap,
+    game.gamedata.free_handicap_placement,
+    game.height,
+  );
   return {
-    id: game.id,
-    moves: formatMoves(
-      game.gamedata.moves,
-      game.handicap,
-      game.gamedata.free_handicap_placement,
-      game.height,
-    ),
+    id: game.id.toString(),
+    moves: formattedMoves,
     rules: game.rules,
-    komi: game.komi,
+    komi: parseFloat(game.komi),
     boardXSize: game.width,
     boardYSize: game.height,
-    analyzeTurns: [],
+    analyzeTurns: formattedMoves.map((_move: string[], i) => i + 1),
   };
 };
 
@@ -80,7 +82,7 @@ if (!existingPlayerBlack) {
 
 await em.flush();
 
-writeGame(game);
-console.log(game);
+const formattedGameStr = shrinkJSON(stringify(writeGame(game)));
+console.log(formattedGameStr);
 
 export {};
