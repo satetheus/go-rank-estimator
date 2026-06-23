@@ -1,3 +1,9 @@
+name: basic cicd
+
+on:
+  pull_request:
+    branches: [main]
+
 jobs:
   linting:
     name: Linting Code
