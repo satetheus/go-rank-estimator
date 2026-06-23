@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "node_modules/.bin/tsc",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint-check": "prettier -c .",
+    "test": "echo 'we dont have tests yet...'"
   },
   "dependencies": {
     "@mikro-orm/postgresql": "^7.1.4",

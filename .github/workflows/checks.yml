@@ -1,0 +1,14 @@
+jobs:
+  linting:
+    name: Linting Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm run lint-check
+
+  test:
+    name: Running tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm run test
