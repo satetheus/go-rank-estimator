@@ -1,0 +1,22 @@
+name: basic cicd
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  linting:
+    name: Linting Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm ci
+      - run: npm run lint-check
+
+  test:
+    name: Running tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm ci
+      - run: npm run test
