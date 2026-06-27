@@ -70,7 +70,7 @@ export const GamesSchema = defineEntity({
     outcome: p.string().length(-1).nullable(),
     annulled: p.boolean().nullable(),
     annulmentReason: p.string().length(-1).nullable(),
-    finishedAt: p.integer().nullable(),
+    finishedAt: p.bigint().nullable(),
     width: p.integer().nullable(),
     height: p.integer().nullable(),
     rules: p.string().length(-1).nullable(),
