@@ -12,21 +12,21 @@ export class Moves {
   moveY?: number;
   turnnumber!: number;
   currentcolor?: string;
-  rawlead?: string;
-  rawnoresultprob?: string;
-  rawscoreselfplay?: string;
-  rawscoreselfplaystdev?: string;
-  rawstscoreerror?: string;
-  rawstwrerror?: string;
-  rawvartimeleft?: string;
-  rawwinrate?: string;
-  scorelead?: string;
-  scoreselfplay?: string;
-  scorestdev?: string;
-  utility?: string;
+  rawlead?: number;
+  rawnoresultprob?: number;
+  rawscoreselfplay?: number;
+  rawscoreselfplaystdev?: number;
+  rawstscoreerror?: number;
+  rawstwrerror?: number;
+  rawvartimeleft?: number;
+  rawwinrate?: number;
+  scorelead?: number;
+  scoreselfplay?: number;
+  scorestdev?: number;
+  utility?: number;
   visits?: number;
-  weight?: string;
-  winrate?: string;
+  weight?: number;
+  winrate?: number;
 }
 
 export const MovesSchema = defineEntity({

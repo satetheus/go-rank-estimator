@@ -24,6 +24,16 @@ export interface GameDataPlayer {
   rank: number;
 }
 
+export interface Score {
+  total: number;
+  stones: number;
+  territory: number;
+  prisoners: number;
+  scoring_positions: string;
+  handicap: number;
+  komi: number;
+}
+
 export type Move = [number, number, number];
 
 export interface GameData {
@@ -56,6 +66,10 @@ export interface GameData {
   phase: string;
   players: { black: GameDataPlayer; white: GameDataPlayer };
   rules: string;
+  score: {
+    white: Score;
+    black: Score;
+  };
   score_passes: boolean;
   score_prisoners: boolean;
   score_stones: boolean;
@@ -67,6 +81,9 @@ export interface GameData {
     speed: string;
     per_move: number;
     pause_on_weekends: boolean;
+    main_time: number;
+    period_time: number;
+    periods: number;
   };
   white_must_pass_last: boolean;
   white_player_id: number;
@@ -120,4 +137,54 @@ export interface Game {
   simul_black?: any;
   // TODO
   simul_white?: any;
+}
+
+export interface MoveInfo {
+  edgeVisits: number;
+  edgeWeight: number;
+  lcb: number;
+  move: string;
+  order: number;
+  playSelectionValue: number;
+  prior: number;
+  pv: string[];
+  scoreLead: number;
+  scoreMean: number;
+  scoreSelfplay: number;
+  scoreStdev: number;
+  utility: number;
+  utilityLcb: number;
+  visits: number;
+  weight: number;
+  winrate: number;
+}
+
+export interface RootInfo {
+  currentPlayer: string;
+  rawLead: number;
+  rawNoResultProb: number;
+  rawScoreSelfplay: number;
+  rawScoreSelfplayStdev: number;
+  rawStScoreError: number;
+  rawStWrError: number;
+  rawVarTimeLeft: number;
+  rawWinrate: number;
+  scoreLead: number;
+  scoreSelfplay: number;
+  scoreStdev: number;
+  symHash: string;
+  thisHash: string;
+  utility: number;
+  visits: number;
+  weight: number;
+  winrate: number;
+}
+
+export interface AnalyzedMove {
+  // Game ID
+  id: string;
+  isDuringSearch: boolean;
+  moveInfos: MoveInfo[];
+  rootInfo: RootInfo;
+  turnNumber: number;
 }
