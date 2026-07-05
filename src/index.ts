@@ -171,7 +171,7 @@ const main = async () => {
   const formattedGameStr = shrinkJSON(stringify(gameObj));
 
   // Call katago
-  const katagoProcess = spawn("../katago/katago", [
+  const katagoProcess = spawn("katago", [
     "analysis",
     "-config",
     "../katago/config2.cfg",
