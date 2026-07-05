@@ -1,5 +1,6 @@
 katago/*.bin.gz
 src/migrations/.snapshot*.json
+src/analysis_logs/
 
 /.idea/
 /tmp
