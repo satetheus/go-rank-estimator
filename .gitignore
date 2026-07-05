@@ -1,3 +1,6 @@
+katago/*.bin.gz
+src/migrations/.snapshot*.json
+
 /.idea/
 /tmp
 /out-tsc
