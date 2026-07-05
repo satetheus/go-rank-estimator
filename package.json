@@ -10,13 +10,16 @@
     "test": "echo 'we dont have tests yet...'"
   },
   "dependencies": {
+    "@mikro-orm/core": "^7.1.4",
     "@mikro-orm/postgresql": "^7.1.4",
     "json-shrinker": "^2.0.0",
+    "mikro-orm": "^7.1.4",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@mikro-orm/cli": "^7.1.4",
     "@mikro-orm/entity-generator": "^7.1.4",
+    "@mikro-orm/migrations": "^7.1.4",
     "@types/node": "^25.9.3",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
