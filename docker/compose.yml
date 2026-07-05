@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       PGDATA: /data/postgres
-      POSTGRES_DB: bank
+      POSTGRES_DB: go_stats
     volumes:
       - db:/data/postgres
     ports:

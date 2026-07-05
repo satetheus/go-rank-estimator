@@ -9,6 +9,7 @@ import { spawn } from "child_process";
 import * as readline from "node:readline";
 import { Games } from "./entities/Games";
 import { Moves } from "./entities/Moves";
+import { argv } from "process";
 
 const orm = await MikroORM.init(config);
 // em = Entity Manager
@@ -149,7 +150,12 @@ const writeGameIfMissing = async (
 };
 
 const main = async () => {
-  const game = await getGame(84536377);
+  const gameId = parseInt(argv[2], 10);
+  if (isNaN(gameId)) {
+    console.log("Please supply a valid ogs game id");
+    process.exit();
+  }
+  const game = await getGame(gameId);
 
   const {
     blackPlayer,
@@ -165,7 +171,7 @@ const main = async () => {
   const formattedGameStr = shrinkJSON(stringify(gameObj));
 
   // Call katago
-  const katagoProcess = spawn("../katago/katago", [
+  const katagoProcess = spawn("katago", [
     "analysis",
     "-config",
     "../katago/config2.cfg",
