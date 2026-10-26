@@ -2,10 +2,6 @@ import { Migration } from "@mikro-orm/migrations";
 
 export class Migration20260718234056 extends Migration {
   override up(): void | Promise<void> {
-    this.addSql(`drop view if exists "move_deltas" cascade;`);
-  }
-
-  override down(): void | Promise<void> {
     this.addSql(`create view "move_deltas" as WITH all_deltas AS (
          SELECT moves.player_id,
             moves.currentcolor,
@@ -41,5 +37,9 @@ export class Migration20260718234056 extends Migration {
             ELSE winrate_delta
         END AS winrate_delta
    FROM all_deltas;`);
+  }
+
+  override down(): void | Promise<void> {
+    this.addSql(`drop view if exists "move_deltas" cascade;`);
   }
 }
